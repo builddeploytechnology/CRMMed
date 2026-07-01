@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB = "YOUR_DOCKERHUB_USERNAME"
+        DOCKER_HUB = "singhsarvesh"
 
         FRONTEND_IMAGE = "${DOCKER_HUB}/crm-frontend:v1"
         BACKEND_IMAGE  = "${DOCKER_HUB}/crm-backend:v1"
@@ -76,29 +76,29 @@ pipeline {
                 bat 'docker images'
             }
         }
-
     }
 
     post {
 
         success {
-            echo "======================================="
-            echo " BUILD SUCCESSFUL "
-            echo " Frontend Image : ${FRONTEND_IMAGE}"
-            echo " Backend Image  : ${BACKEND_IMAGE}"
-            echo "======================================="
+            echo '========================================'
+            echo 'BUILD SUCCESSFUL'
+            echo "Frontend Image : ${FRONTEND_IMAGE}"
+            echo "Backend Image  : ${BACKEND_IMAGE}"
+            echo 'Images Successfully Pushed To Docker Hub'
+            echo '========================================'
         }
 
         failure {
-            echo "======================================="
-            echo " BUILD FAILED "
-            echo " Check Jenkins Console Output"
-            echo "======================================="
+            echo '========================================'
+            echo 'BUILD FAILED'
+            echo 'Check Jenkins Console Output'
+            echo '========================================'
         }
 
         always {
             bat 'docker logout'
-            echo "Pipeline Finished"
+            echo 'Pipeline Finished'
         }
     }
 }
