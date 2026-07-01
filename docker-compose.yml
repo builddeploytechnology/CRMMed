@@ -1,0 +1,67 @@
+services:
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: crm-frontend
+
+    ports:
+      - "5173:5173"
+
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+    depends_on:
+      - backend
+
+    networks:
+      - crm-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    container_name: crm-backend
+
+    ports:
+      - "9000:9000"
+
+    volumes:
+      - ./backend:/var/www
+
+    depends_on:
+      - mysql
+
+    networks:
+      - crm-network
+
+  mysql:
+    image: mysql:8.0
+
+    container_name: crm-mysql
+
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: crmdb
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+    networks:
+      - crm-network
+
+networks:
+  crm-network:
+
+volumes:
+  mysql_data:
+  
