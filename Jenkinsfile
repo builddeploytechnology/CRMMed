@@ -2,8 +2,10 @@ pipeline {
     agent any
 
     environment {
-        FRONTEND_IMAGE = "crm-frontend:v1"
-        BACKEND_IMAGE  = "crm-backend:v1"
+        DOCKER_HUB = "YOUR_DOCKERHUB_USERNAME"
+
+        FRONTEND_IMAGE = "${DOCKER_HUB}/crm-frontend:v1"
+        BACKEND_IMAGE  = "${DOCKER_HUB}/crm-backend:v1"
     }
 
     stages {
@@ -28,7 +30,7 @@ pipeline {
         stage('Build Frontend Docker Image') {
             steps {
                 dir('frontend') {
-                    bat 'docker build -t %FRONTEND_IMAGE% .'
+                    bat "docker build -t %FRONTEND_IMAGE% ."
                 }
             }
         }
@@ -36,8 +38,36 @@ pipeline {
         stage('Build Backend Docker Image') {
             steps {
                 dir('backend') {
-                    bat 'docker build -t %BACKEND_IMAGE% .'
+                    bat "docker build -t %BACKEND_IMAGE% ."
                 }
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASS'
+                    )
+                ]) {
+                    bat '''
+                    echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
+                    '''
+                }
+            }
+        }
+
+        stage('Push Frontend Image') {
+            steps {
+                bat "docker push %FRONTEND_IMAGE%"
+            }
+        }
+
+        stage('Push Backend Image') {
+            steps {
+                bat "docker push %BACKEND_IMAGE%"
             }
         }
 
@@ -46,19 +76,29 @@ pipeline {
                 bat 'docker images'
             }
         }
+
     }
 
     post {
+
         success {
-            echo '✅ Build Successful'
+            echo "======================================="
+            echo " BUILD SUCCESSFUL "
+            echo " Frontend Image : ${FRONTEND_IMAGE}"
+            echo " Backend Image  : ${BACKEND_IMAGE}"
+            echo "======================================="
         }
 
         failure {
-            echo '❌ Build Failed'
+            echo "======================================="
+            echo " BUILD FAILED "
+            echo " Check Jenkins Console Output"
+            echo "======================================="
         }
 
         always {
-            echo 'Pipeline Finished'
+            bat 'docker logout'
+            echo "Pipeline Finished"
         }
     }
 }
