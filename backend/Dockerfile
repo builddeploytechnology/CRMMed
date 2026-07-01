@@ -5,13 +5,18 @@ FROM composer:2 AS composer
 
 WORKDIR /app
 
+# PHP extensions required by Composer packages
+RUN apk add --no-cache icu-dev
+
 COPY composer.json composer.lock ./
+
+RUN docker-php-ext-install intl
 
 RUN composer install \
     --no-dev \
-    --optimize-autoloader \
+    --prefer-dist \
     --no-interaction \
-    --prefer-dist
+    --optimize-autoloader
 
 COPY . .
 
@@ -19,36 +24,39 @@ RUN composer dump-autoload --optimize
 
 
 # ==========================
-# Stage 2 - PHP
+# Stage 2 - PHP Runtime
 # ==========================
 FROM php:8.3-fpm
 
 WORKDIR /var/www
 
-# Install Linux packages
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
     zip \
+    curl \
     libzip-dev \
+    libicu-dev \
     libpng-dev \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
+    && docker-php-ext-configure intl \
     && docker-php-ext-install \
+        intl \
         pdo \
         pdo_mysql \
         mbstring \
-        zip \
+        bcmath \
         exif \
         pcntl \
-        bcmath
+        zip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy application
 COPY --from=composer /app /var/www
 
-# Permissions
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 storage bootstrap/cache
 
