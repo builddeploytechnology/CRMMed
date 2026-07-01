@@ -1,0 +1,14 @@
+.layout {
+  display: flex;
+}
+
+/* MAIN AREA */
+.main {
+  margin-left: 220px; /* sidebar width */
+  width: calc(100% - 220px);
+}
+
+/* CONTENT AREA */
+.content {
+  padding: 20px;
+}

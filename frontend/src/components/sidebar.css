@@ -1,0 +1,43 @@
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  background: #1e293b;
+  color: white;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 20px;
+}
+
+/* LOGO */
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* MENU */
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul li {
+  margin: 10px 0;
+}
+
+.sidebar ul li a {
+  display: block;
+  padding: 10px;
+  color: #cbd5f5;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.sidebar ul li a:hover {
+  background: #334155;
+}
+
+/* ACTIVE */
+.sidebar ul li.active a {
+  background: #2563eb;
+  color: white;
+}

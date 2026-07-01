@@ -1,0 +1,261 @@
+/* attendance.css */
+
+.attendance-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 25px 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  margin-bottom: 25px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-header p {
+  margin: 5px 0 0 0;
+  color: #64748b;
+  font-size: 15px;
+}
+
+.live-time {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e40af;
+  background: #eff6ff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.15);
+  letter-spacing: 1px;
+}
+
+/* Action Buttons */
+.action-bar {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.login-btn {
+  background: linear-gradient(90deg, #10b981, #34d399);
+  color: white;
+}
+
+.login-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+}
+
+.logout-btn {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+  color: white;
+}
+
+.logout-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Monthly Overview */
+.monthly-overview {
+  margin-bottom: 35px;
+}
+
+.overview-card {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.overview-card:hover {
+  transform: translateY(-5px);
+}
+
+.overview-card h3 {
+  margin: 0 0 10px 0;
+  color: #64748b;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.overview-card h2 {
+  margin: 0 0 20px 0;
+  font-size: 42px;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.btn-download {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  color: white;
+  padding: 12px 24px;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-download:hover {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  transform: scale(1.05);
+}
+
+/* Date Cards */
+.date-card {
+  background: white;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+  transition: all 0.3s ease;
+}
+
+.date-card:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.date-header {
+  background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+  color: white;
+  padding: 18px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.date-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.total-hours {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 600;
+  backdrop-filter: blur(5px);
+}
+
+/* Entry Cards */
+.entry-card {
+  padding: 20px 25px;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.2s ease;
+}
+
+.entry-card:last-child {
+  border-bottom: none;
+}
+
+.entry-card:hover {
+  background: #f8fafc;
+}
+
+.entry-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.entry-row span {
+  display: block;
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.entry-row strong {
+  font-size: 17px;
+  color: #1e2937;
+  font-weight: 600;
+}
+
+.hours {
+  color: #10b981 !important;
+  font-size: 18px;
+}
+
+/* Loading & Empty States */
+.loading,
+.no-records {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748b;
+  font-size: 16px;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .entry-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .live-time {
+    font-size: 20px;
+    padding: 10px 16px;
+  }
+
+  .btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .action-bar {
+    flex-direction: column;
+  }
+}
