@@ -4,8 +4,10 @@ pipeline {
     environment {
         DOCKER_HUB = "singhsarvesh"
 
-        FRONTEND_IMAGE = "${DOCKER_HUB}/crm-frontend:v1"
-        BACKEND_IMAGE  = "${DOCKER_HUB}/crm-backend:v1"
+        IMAGE_TAG = "${BUILD_NUMBER}"
+
+        FRONTEND_IMAGE = "${DOCKER_HUB}/crm-frontend:${IMAGE_TAG}"
+        BACKEND_IMAGE  = "${DOCKER_HUB}/crm-backend:${IMAGE_TAG}"
     }
 
     stages {
@@ -52,9 +54,14 @@ pipeline {
                         passwordVariable: 'DOCKER_PASS'
                     )
                 ]) {
+
+                    writeFile file: 'docker-pass.txt', text: env.DOCKER_PASS
+
                     bat '''
-                    echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
+                    type docker-pass.txt | docker login -u %DOCKER_USER% --password-stdin
                     '''
+
+                    bat 'del docker-pass.txt'
                 }
             }
         }
@@ -76,29 +83,32 @@ pipeline {
                 bat 'docker images'
             }
         }
+
     }
 
     post {
 
         success {
-            echo '========================================'
-            echo 'BUILD SUCCESSFUL'
+            echo "=============================================="
+            echo " BUILD SUCCESSFUL "
+            echo "=============================================="
             echo "Frontend Image : ${FRONTEND_IMAGE}"
             echo "Backend Image  : ${BACKEND_IMAGE}"
-            echo 'Images Successfully Pushed To Docker Hub'
-            echo '========================================'
+            echo "Images Successfully Pushed To Docker Hub"
+            echo "=============================================="
         }
 
         failure {
-            echo '========================================'
-            echo 'BUILD FAILED'
-            echo 'Check Jenkins Console Output'
-            echo '========================================'
+            echo "=============================================="
+            echo " BUILD FAILED "
+            echo "Check Console Output"
+            echo "=============================================="
         }
 
         always {
             bat 'docker logout'
-            echo 'Pipeline Finished'
+            cleanWs()
+            echo "Pipeline Finished"
         }
     }
 }
