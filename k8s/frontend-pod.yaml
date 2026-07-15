@@ -1,16 +1,26 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 
 metadata:
   name: crm-frontend
-  labels:
-    app: crm-frontend
 
 spec:
-  containers:
-    - name: frontend
-      image: singhsarvesh/crm-frontend:5
-      imagePullPolicy: IfNotPresent
+  replicas: 2
 
-      ports:
-        - containerPort: 5173 
+  selector:
+    matchLabels:
+      app: crm-frontend
+
+  template:
+    metadata:
+      labels:
+        app: crm-frontend
+
+    spec:
+      containers:
+      - name: frontend
+        image: singhsarvesh/crm-frontend:7
+        imagePullPolicy: IfNotPresent
+
+        ports:
+        - containerPort: 5173
