@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: crm-mysql
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: crm-mysql
+
+  template:
+    metadata:
+      labels:
+        app: crm-mysql
+
+    spec:
+      containers:
+        - name: mysql
+
+          image: mysql:8.0
+
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 3306
+
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+
+            - name: MYSQL_DATABASE
+              value: crmdb
+
+          volumeMounts:
+            - name: mysql-storage
+              mountPath: /var/lib/mysql
+
+      volumes:
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: mysql-pvc
